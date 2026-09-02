@@ -81,7 +81,7 @@ Most AI coding assistants use **one model for everything**. Kiroweaver uses **si
 | Planning | Claude Sonnet (1.0x) | **Luna** (0.1x) | **10×** |
 | Coding | Claude Sonnet (1.0x) | **Qwen3 Coder** (0.05x) | **20×** |
 | Design | Claude Sonnet (1.0x) | **Qwen3 Coder** (0.05x) | **20×** |
-| Image review | Claude Sonnet (1.0x) | **Terra** (1.0x) | Same |
+| Image / error log review | Claude Sonnet (1.0x) | **Haiku 4.5** (0.1x) | **10×** |
 | Security audit | Claude Sonnet (1.0x) | **Terra** (1.0x) | Same |
 
 **Result:** You pay pennies for what others pay dollars for — without sacrificing quality.
@@ -104,8 +104,8 @@ Most AI coding assistants use **one model for everything**. Kiroweaver uses **si
         ▼          ▼          ▼          ▼          ▼          ▼
    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
    │ Thinker │ │  Coder  │ │  Vision │ │ Designer│ │ Security│
-   │  Luna   │ │  Qwen3  │ │  Terra  │ │  Qwen3  │ │  Terra  │
-   │  0.1x   │ │ 0.05x   │ │ 1.0x    │ │ 0.05x   │ │ 1.0x    │
+   │  Luna   │ │  Qwen3  │ │ Haiku   │ │  Qwen3  │ │  Terra  │
+   │  0.1x   │ │ 0.05x   │ │ 0.1x    │ │ 0.05x   │ │ 1.0x    │
    └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘
 ```
 
@@ -167,14 +167,23 @@ kiro-cli --agent kiroweaver-coder
 
 ---
 
-### 4. `kiroweaver-vision` — Image Analysis
-**Model:** GPT-5.6 Terra (1.0x)  
+### 4. `kiroweaver-vision` — Image & Error Log Analysis
+**Model:** Claude Haiku 4.5 (0.1x)  
 **Shortcut:** `Ctrl+3`
 
-Analyzes screenshots, UI mockups, diagrams, and visual bug reports. Describes exactly what it sees and flags issues.
+Analyzes screenshots, UI mockups, diagrams, and **error logs from screenshots** with near-Sonnet OCR quality. Transcribes terminal output and stack traces verbatim, then routes fixes to the coder.
+
+**Why Haiku 4.5 over Terra:**
+- **2.4× cheaper** on output tokens ($5 vs $12 per 1M)
+- **2× cheaper** on input tokens ($1 vs $2 per 1M)
+- **Near-Sonnet OCR quality** — excellent for reading error logs from screenshots
+- **80% defect detection** accuracy on vision benchmarks
+- **Fastest** Claude model — ideal for rapid screenshot review
 
 **Best for:**
 - UI bug reports from screenshots
+- Error log parsing from terminal screenshots
+- Stack trace transcription
 - Design review
 - Accessibility issues
 - Diagram interpretation
@@ -340,9 +349,9 @@ Design system generated. Style: Corporate Minimalism..."
 | Plan the page | Thinker | Luna (0.1x) | ~15 |
 | Generate design system | Designer | Qwen3 (0.05x) | ~25 |
 | Implement the code | Designer | Qwen3 (0.05x) | ~50 |
-| Review screenshot | Vision | Terra (1.0x) | ~30 |
+| Review screenshot | Vision | Haiku 4.5 (0.1x) | ~15 |
 | Audit for secrets | Security | Terra (1.0x) | ~20 |
-| **Total** | | | **~140** |
+| **Total** | | | **~125** |
 
 **Same task on Claude Sonnet (1.0x):** ~800–1200 credits.
 
@@ -360,7 +369,7 @@ All Kiroweaver agents use a terse communication style:
 - Auto-clarity: if you're confused, say "explain" and the agent switches to full clarity mode
 
 ### Model-per-task, not model-per-session
-Why pay 1.0x for planning when Luna (0.1x) is faster and good enough? Why use a generalist for coding when Qwen3 Coder (0.05x) was built for it? Kiroweaver routes every task to the right tool.
+Why pay 1.0x for planning when Luna (0.1x) is faster and good enough? Why use a generalist for coding when Qwen3 Coder (0.05x) was built for it? Why use a reasoning model for screenshot OCR when Haiku 4.5 (0.1x) has near-Sonnet vision quality? Kiroweaver routes every task to the right tool.
 
 ### Closed system integrity
 Kiroweaver agents are calibrated to work together. Their prompts, permissions, and terse style are interdependent. Injecting external agents, models, or skill directives breaks this calibration. **If it is not in the `kiroweaver-*` namespace, it does not exist in this system.**
@@ -403,7 +412,7 @@ kiroweaver/
 │   ├── kiroweaver.md              # Main orchestrator — ONLY entry point
 │   ├── kiroweaver-thinker.md      # Reasoning & planning
 │   ├── kiroweaver-coder.md        # Code implementation
-│   ├── kiroweaver-vision.md       # Image analysis
+│   ├── kiroweaver-vision.md       # Image & error log analysis
 │   ├── kiroweaver-designer.md     # UI/UX design
 │   └── kiroweaver-security.md     # Security audits
 ├── agent-factory.sh               # Interactive agent creator (Kiroweaver fleet only)
