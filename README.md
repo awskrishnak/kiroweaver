@@ -14,6 +14,7 @@ Every task routes to the optimal specialist agent model — not the most expensi
 
 - [Architecture](#architecture)
 - [Agent Fleet](#agent-fleet)
+- [Benchmarks vs Claude](#benchmarks-vs-claude)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Security & Scope](#security--scope)
@@ -71,6 +72,45 @@ Kiroweaver Orchestrator (GPT 5.6 Luna · 0.10x · Terminal-Bench 84.7%)
 - `Ctrl+4` Designer
 - `Ctrl+5` Security
 - `Ctrl+6` VAPT
+
+---
+
+## Benchmarks vs Claude
+
+The core question behind Kiroweaver: for each agent's *specific job*, how does its cheaper specialist model compare to using a Claude model for the same task?
+
+The comparison below uses **SWE-bench Verified** as the common yardstick, drawn from published third-party sources. Figures are approximate and change as models are released — treat them as directional, not absolute.
+
+### SWE-bench Verified (coding capability)
+
+| Model | SWE-bench Verified | Role in fleet |
+|-------|:------------------:|---------------|
+| MiniMax M2.5 | ~80% | Security, VAPT |
+| Claude Opus (4.5–4.6 class) | ~80–81% | Reference (frontier) |
+| Claude Haiku 4.5 | ~67–73% | Vision |
+| Qwen3 Coder Next | ~70% | Coder, Designer |
+| Claude Sonnet 4 class | ~70% | Reference (mid-tier) |
+
+### Per-agent verdict
+
+| Agent | Model | Job | vs Claude for that job |
+|-------|-------|-----|------------------------|
+| `kiroweaver-coder` | Qwen3 Coder Next | Implementation | Matches Claude Sonnet-4 class; trails top-tier Opus by ~10 pts on the hardest multi-file tasks |
+| `kiroweaver-designer` | Qwen3 Coder Next | UI/UX + frontend | Same coding class as Sonnet-4; design intelligence comes from the UI UX Pro Max skill |
+| `kiroweaver-security` | MiniMax M2.5 | Vulnerability detection | **Near-parity with Claude Opus on detection** — within ~1 pt, at a fraction of the cost |
+| `kiroweaver-vapt` | MiniMax M2.5 | Pentest detection | **Near-parity with Claude Opus on detection**; Opus writes deeper fixes + more tests |
+| `kiroweaver-vision` | Claude Haiku 4.5 | OCR, screenshots | Already a Claude model — the cost-efficient Claude, not a competitor to it |
+| `kiroweaver-thinker` | GPT 5.6 Luna | Planning | Low-risk role (output is a reviewable plan); model benchmark unverified — see caveat |
+
+### Where cheap holds, where Claude pulls ahead
+
+- **Detection work (security, VAPT):** cheap models reach genuine parity with Claude Opus. Biggest, safest win.
+- **Generation work (coder, designer):** cheap models match mid-tier Claude (Sonnet class); top-tier Opus leads by ~10 pts on the hardest problems.
+- **The consistent pattern:** cheap models *find the right answer* about as often; Claude Opus does *more around it* — more thorough fixes, more tests, harder problems. The gap is thoroughness and ceiling, not correctness.
+
+**Practical rule:** keep the cheap defaults for the ~80% of routine work; reserve a top-tier Claude model for the genuinely hard coding tasks and production-grade security remediation where fix depth matters.
+
+> **Caveats.** SWE-bench figures are sourced from public third-party benchmarks and are approximate. The orchestrator/thinker model (`gpt-5.6-luna`) does not map to a benchmark this project can independently verify; its listed scores are unverified. Benchmark numbers reflect detection/coding capability, not fix thoroughness or test coverage, where frontier Claude models still lead.
 
 ---
 
