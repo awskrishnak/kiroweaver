@@ -124,15 +124,30 @@ The comparison below uses **SWE-bench Verified** as the common yardstick, drawn 
 - Python 3.x (for UI UX Pro Max skill scripts)
 - Docker (for Strix VAPT agent)
 
-### Clone and Install Agents
+### Install Agents
+
+The repository root contains the finalized seven Markdown agent definitions. Copy the `.md` files directly into the agent directory for the scope you want.
+
+#### Global install
+
+Available to Kiro CLI across projects:
 
 ```bash
-git clone https://github.com/awskrishnak/kiroweaver.git ~/.kiro/agents/kiroweaver
+git clone https://github.com/awskrishnak/kiroweaver.git ~/kiroweaver
 mkdir -p ~/.kiro/agents
-cp ~/.kiro/agents/kiroweaver/*.md ~/.kiro/agents/
+cp ~/kiroweaver/*.md ~/.kiro/agents/
 ```
 
-The repository root contains the finalized seven Markdown agent definitions. Copying them into `~/.kiro/agents/` makes the fleet available to Kiro CLI without adding other agent modules.
+#### Workspace-local install
+
+Run this from the project folder where you want Kiroweaver enabled:
+
+```bash
+mkdir -p .kiro/agents
+cp /path/to/kiroweaver/*.md .kiro/agents/
+```
+
+Replace `/path/to/kiroweaver` with the location of your cloned repository. Workspace-local agents take effect for that project without installing the fleet globally.
 
 ### Install Skills
 
