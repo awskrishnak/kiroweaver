@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="kiroweaver-logo.png" alt="Kiroweaver - Quality-optimized multi-agent orchestration for Kiro CLI" width="200" height="200">
+  <img src="k-logo.png" alt="Kiroweaver - Quality-optimized multi-agent orchestration for Kiro CLI" width="200" height="200">
 </p>
 
 # Kiroweaver — Open-Source Kiro Agent Fleet
