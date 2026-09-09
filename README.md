@@ -2,9 +2,13 @@
   <img src="kiroweaver-logo.png" alt="Kiroweaver - Quality-optimized multi-agent orchestration for Kiro CLI" width="200" height="200">
 </p>
 
-# Kiroweaver
+# Kiroweaver — Open-Source Kiro Agent Fleet
 
-**Quality-optimized multi-agent orchestration for Kiro CLI.**
+Kiroweaver is an open-source multi-agent orchestration system for [Kiro CLI](https://kiro.dev/). It provides a fixed-model fleet of specialized Kiro agents for planning, coding, UI/UX design, vision, security review, and authorized penetration testing.
+
+**Repository:** [awskrishnak/kiroweaver](https://github.com/awskrishnak/kiroweaver)
+
+**Website:** [awskrishnak.github.io/kiroweaver](https://awskrishnak.github.io/kiroweaver/)
 
 Every task routes to the optimal specialist agent model — not the most expensive, not the cheapest, but the highest quality per dollar.
 
@@ -20,6 +24,7 @@ Every task routes to the optimal specialist agent model — not the most expensi
 - [Security & Scope](#security--scope)
 - [Customization](#customization)
 - [Troubleshooting](#troubleshooting)
+- [Frequently Asked Questions](#frequently-asked-questions)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
@@ -287,6 +292,24 @@ To rebrand the entire fleet:
 - **GPT 5.6 Luna**: #6 global coding rank — above Opus 4.8 on Terminal-Bench
 - **MiniMax M2.5**: 48% detection — 2.4x better than Sonnet 5's 19.6%
 - **Claude Haiku 4.5**: 80% defect detection — only proven OCR for error logs
+
+## Frequently Asked Questions
+
+### What is Kiroweaver?
+
+Kiroweaver is an open-source Kiro CLI agent fleet for coordinating specialized AI agents across coding, design, planning, vision, security, and authorized VAPT tasks.
+
+### Is Kiroweaver a Kiro agent?
+
+Kiroweaver is a coordinated fleet of Kiro agents. The `kiroweaver` agent is the orchestrator, while six specialist Kiro agents handle focused tasks.
+
+### Where can I install the Kiro agents?
+
+Install them globally in `~/.kiro/agents/` or locally inside a project at `.kiro/agents/`. Copy both the Markdown source definitions and JSON Kiro CLI profiles.
+
+### Where is the Kiroweaver GitHub repository?
+
+The official repository is [github.com/awskrishnak/kiroweaver](https://github.com/awskrishnak/kiroweaver).
 
 ---
 
