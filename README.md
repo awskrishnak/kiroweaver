@@ -54,7 +54,7 @@ Kiroweaver Orchestrator (GPT 5.6 Luna · 0.10x · Terminal-Bench 84.7%)
 
 ## Agent Fleet
 
-The supported fleet is exactly these seven root Markdown definitions in this repository: one orchestrator and six specialist agents. Their `model:` directives are the authoritative model assignments for the fleet.
+The supported fleet is exactly these seven root Markdown and JSON definitions in this repository: one orchestrator and six specialist agents. Markdown files are the portable source definitions; JSON files are the Kiro CLI profiles used for discovery and runtime configuration. Their `model:` assignments are authoritative for the fleet.
 
 | Agent | Model | Cost | Benchmarks | Use Case |
 |-------|-------|------|------------|----------|
@@ -126,7 +126,7 @@ The comparison below uses **SWE-bench Verified** as the common yardstick, drawn 
 
 ### Install Agents
 
-The repository root contains the finalized seven Markdown agent definitions. Copy the `.md` files directly into the agent directory for the scope you want.
+The repository root contains the finalized seven Markdown and JSON definitions for each agent. Copy both formats into the agent directory for the scope you want: Markdown is the portable source, while JSON is the Kiro CLI profile format used for discovery and runtime configuration.
 
 #### Global install
 
@@ -135,7 +135,7 @@ Available to Kiro CLI across projects:
 ```bash
 git clone https://github.com/awskrishnak/kiroweaver.git ~/kiroweaver
 mkdir -p ~/.kiro/agents
-cp ~/kiroweaver/*.md ~/.kiro/agents/
+cp ~/kiroweaver/*.md ~/kiroweaver/*.json ~/.kiro/agents/
 ```
 
 #### Workspace-local install
@@ -144,7 +144,7 @@ Run this from the project folder where you want Kiroweaver enabled:
 
 ```bash
 mkdir -p .kiro/agents
-cp /path/to/kiroweaver/*.md .kiro/agents/
+cp /path/to/kiroweaver/*.md /path/to/kiroweaver/*.json .kiro/agents/
 ```
 
 Replace `/path/to/kiroweaver` with the location of your cloned repository. Workspace-local agents take effect for that project without installing the fleet globally.
@@ -234,7 +234,7 @@ Use within a Kiroweaver session:
 - VAPT agents produce real exploit PoCs but never execute harmful payloads
 
 ### Controlled Fleet Constraints
-- Only the Kiroweaver orchestrator and its seven configured Markdown agent definitions are part of the supported fleet
+- Only the Kiroweaver orchestrator and its seven configured Markdown and JSON agent definitions are part of the supported fleet
 - External agent profiles, arbitrary modules, and unapproved delegates are disallowed
 - Reviewed external skills may provide instructions, references, or workflow context when relevant
 - A skill's `model:` directive is non-authoritative; the invoking Kiroweaver agent's configured model always wins
@@ -276,7 +276,7 @@ To rebrand the entire fleet:
 | Accidentally switched to `/agent default` | Type `/agent kiroweaver` to return |
 | Costs unexpectedly high after `--model` flag | Exit and restart with `kiro-cli --v3 --agent kiroweaver` |
 | Skill trying to use expensive model | Ignored automatically — "Skill model override blocked" confirms protection is working |
-| Agent not found | Verify files in `~/.kiro/agents/kiroweaver*.md` |
+| Agent not found | Verify files in `~/.kiro/agents/kiroweaver*.md` and `~/.kiro/agents/kiroweaver*.json` |
 | Designer skill not loading | `npm install -g ui-ux-pro-max-cli@latest && uipro init --ai kiro --global` |
 | Strix not found (VAPT) | `curl -sSL https://strix.ai/install \| bash` |
 | Model unavailable | Agents fall back to default model — temporary, not recommended |

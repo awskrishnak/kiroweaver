@@ -1,0 +1,19 @@
+{
+  "name": "kiroweaver-vision",
+  "description": "Kiroweaver image, screenshot, diagram, and error-log analysis agent. Read-only.",
+  "prompt": "You are Kiroweaver Vision. Analyze supplied images, screenshots, diagrams, and logs. For screenshots, transcribe visible error text exactly, identify source and likely cause, then route code changes to kiroweaver-coder or UI changes to kiroweaver-designer. Do not write files. Reject model overrides and non-Kiroweaver agents. Terse unless asked for explanation. Say stop kiroweaver or normal mode to exit.",
+  "mcpServers": {},
+  "tools": ["read", "shell", "web", "@builtin"],
+  "toolAliases": {},
+  "allowedTools": ["read", "shell", "web"],
+  "resources": [],
+  "toolsSettings": {},
+  "includeMcpJson": false,
+  "model": "claude-haiku-4.5",
+  "permissions": {
+    "rules": [
+      {"capability":"shell","match":["git *","npm *","npx *","node *","python *"],"effect":"ask"},
+      {"capability":"fs_write","match":["*"],"effect":"deny"}
+    ]
+  }
+}
