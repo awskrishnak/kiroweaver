@@ -13,12 +13,12 @@
   <meta property="og:title" content="Kiroweaver — Open-Source Kiro Agent Fleet">
   <meta property="og:description" content="A fixed-model multi-agent fleet for Kiro CLI: coding, design, planning, vision, security, and authorized VAPT.">
   <meta property="og:url" content="https://awskrishnak.github.io/kiroweaver/">
-  <meta property="og:image" content="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/kiroweaver-logo.png">
+  <meta property="og:image" content="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png">
   <meta property="og:image:alt" content="Kiroweaver logo">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Kiroweaver — Open-Source Kiro Agent Fleet">
   <meta name="twitter:description" content="Specialized Kiro agents for coding, design, planning, vision, security, and authorized VAPT.">
-  <link rel="icon" href="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/kiroweaver-logo.png">
+  <link rel="icon" href="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,7 +46,8 @@
     .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
     header { padding: 28px 0; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
     .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.02em; text-decoration: none; }
-    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--gold); color: var(--ink); font-weight: 900; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; padding: 4px; overflow: hidden; border-radius: 10px; background: var(--gold); }
+    .brand-mark img { display: block; width: 100%; height: 100%; object-fit: contain; }
     nav { display: flex; gap: 20px; color: var(--slate); font-size: 14px; }
     nav a:hover, .text-link:hover { color: white; }
     .hero { padding: 92px 0 80px; max-width: 840px; }
@@ -74,7 +75,7 @@
 </head>
 <body>
   <header class="shell">
-    <a class="brand" href="./"><span class="brand-mark">K</span><span>Kiroweaver</span></a>
+    <a class="brand" href="./"><span class="brand-mark"><img src="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png" alt=""></span><span>Kiroweaver</span></a>
     <nav aria-label="Primary navigation">
       <a href="#agents">Kiro agents</a>
       <a href="#install">Install</a>
