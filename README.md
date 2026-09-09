@@ -48,11 +48,13 @@ Kiroweaver Orchestrator (GPT 5.6 Luna · 0.10x · Terminal-Bench 84.7%)
                         └───────────┘
 ```
 
-**Closed system** — All traffic routes through the orchestrator. No external agents, no manual overrides.
+**Controlled fleet** — All agent delegation routes through the Kiroweaver orchestrator. External agent profiles and modules are not used as delegates. Reviewed external skills may provide instructions or workflow context, but they cannot replace or override the configured Kiroweaver fleet models.
 
 ---
 
 ## Agent Fleet
+
+The supported fleet is exactly these seven root Markdown definitions in this repository: one orchestrator and six specialist agents. Their `model:` directives are the authoritative model assignments for the fleet.
 
 | Agent | Model | Cost | Benchmarks | Use Case |
 |-------|-------|------|------------|----------|
@@ -60,7 +62,7 @@ Kiroweaver Orchestrator (GPT 5.6 Luna · 0.10x · Terminal-Bench 84.7%)
 | `kiroweaver-thinker` | GPT 5.6 Luna | 0.10x | Terminal-Bench 84.7% | Architecture, planning, API contracts |
 | `kiroweaver-coder` | Qwen3 Coder Next | 0.05x | SWE-Bench 71.3% · Codeforces 2100 | Implementation, refactoring, tests |
 | `kiroweaver-vision` | Claude Haiku 4.5 | 0.40x | Defect Detection 80% · OCR 61.6% | Screenshots, error logs, stack traces |
-| `kiroweaver-designer` | Qwen3 + UI UX Pro Max | 0.05x | SWE-Bench 71.3% | Landing pages, dashboards, design systems |
+| `kiroweaver-designer` | Qwen3 Coder Next | 0.05x | SWE-Bench 71.3% | Landing pages, dashboards, design systems |
 | `kiroweaver-security` | MiniMax M2.5 | 0.25x | Vulnerability Detection 48% | CVE scans, secrets, OWASP, static review |
 | `kiroweaver-vapt` | MiniMax M2.5 + Strix | 0.25x | 48% detection · Real exploit PoCs | Penetration testing, API security, CI/CD gates |
 
@@ -130,6 +132,8 @@ mkdir -p ~/.kiro/agents
 cp ~/.kiro/agents/kiroweaver/*.md ~/.kiro/agents/
 ```
 
+The repository root contains the finalized seven Markdown agent definitions. Copying them into `~/.kiro/agents/` makes the fleet available to Kiro CLI without adding other agent modules.
+
 ### Install Skills
 
 ```bash
@@ -142,6 +146,8 @@ curl -sSL https://strix.ai/install | bash
 # or: npx skills add usestrix/strix
 ```
 
+Reviewed skills may be installed for their instructions and workflow tooling. Their own model settings do not override the fixed model assigned to the Kiroweaver agent that invokes them.
+
 ### Configure Strix (optional)
 
 ```bash
@@ -149,13 +155,15 @@ export STRIX_LLM="openrouter/z-ai/glm-5.3"
 export LLM_API_KEY="your-api-key"
 ```
 
+Nested CLI tools such as Strix may have independent model configuration. That configuration applies only inside the separately launched tool and does not change the Kiroweaver fleet model.
+
 ### Verify
 
 ```bash
 kiro-cli --v3 --agent kiroweaver
 ```
 
-Expected output: `Kiroweaver Orchestrator (Luna). CLOSED SYSTEM. Quality-optimized routing.`
+Expected output: `Kiroweaver Orchestrator (Luna). CONTROLLED FLEET. Quality-optimized routing.`
 
 ---
 
@@ -193,7 +201,7 @@ Use within a Kiroweaver session:
 - `Ctrl+1` Thinker (GPT 5.6 Luna · 0.10x)
 - `Ctrl+2` Coder (Qwen3 Coder Next · 0.05x)
 - `Ctrl+3` Vision (Claude Haiku 4.5 · 0.40x)
-- `Ctrl+4` Designer (Qwen3 + UI UX Pro Max · 0.05x)
+- `Ctrl+4` Designer (Qwen3 Coder Next · 0.05x)
 - `Ctrl+5` Security (MiniMax M2.5 · 0.25x)
 - `Ctrl+6` VAPT (MiniMax M2.5 + Strix · 0.25x)
 
@@ -210,11 +218,13 @@ Use within a Kiroweaver session:
 - Active VAPT testing requires explicit user authorization before execution
 - VAPT agents produce real exploit PoCs but never execute harmful payloads
 
-### Closed System Constraints
-- No external agents (`/agent default` blocked)
-- No manual model overrides (`--model` flags ignored)
-- No mid-session skill loading
-- Skill model directives discarded (skills run on assigned agent model or not at all)
+### Controlled Fleet Constraints
+- Only the Kiroweaver orchestrator and its seven configured Markdown agent definitions are part of the supported fleet
+- External agent profiles, arbitrary modules, and unapproved delegates are disallowed
+- Reviewed external skills may provide instructions, references, or workflow context when relevant
+- A skill's `model:` directive is non-authoritative; the invoking Kiroweaver agent's configured model always wins
+- No manual model overrides; `--model` flags cannot replace a fleet assignment
+- Nested external CLI tools may use independent models, but those models do not alter the Kiroweaver fleet
 
 ---
 
@@ -238,7 +248,7 @@ To rebrand the entire fleet:
 2. Update the `agent:` field in each file to match the new filename
 3. The orchestrator's routing table automatically reflects the new agent IDs
 
-**Important:** Preserve the closed-system naming and routing conventions. Do not remove the `kiroweaver` orchestrator entry point.
+**Important:** Preserve the controlled-fleet naming and routing conventions. Do not remove the `kiroweaver` orchestrator entry point or add external agent modules as substitutes.
 
 ---
 
