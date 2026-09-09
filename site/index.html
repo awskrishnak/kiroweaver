@@ -7,7 +7,7 @@
   <meta name="description" content="Kiroweaver is an open-source Kiro CLI agent fleet for fixed-model multi-agent orchestration across coding, design, planning, vision, security, and authorized VAPT.">
   <meta name="keywords" content="Kiro agent, Kiro CLI, Kiro agents, Kiroweaver, AI agent fleet, multi-agent orchestration, coding agent">
   <meta name="author" content="awskrishnak">
-  <meta name="theme-color" content="#1f1f53">
+  <meta name="theme-color" content="#10112b">
   <link rel="canonical" href="https://awskrishnak.github.io/kiroweaver/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kiroweaver — Open-Source Kiro Agent Fleet">
@@ -39,104 +39,316 @@
   }
   </script>
   <style>
-    :root { color-scheme: dark; --ink: #1f1f53; --indigo: #4b39ff; --gold: #fdbe1b; --mist: #f5f5fc; --slate: #b9bad0; }
+    :root {
+      color-scheme: dark;
+      --ink: #10112b;
+      --ink-deep: #0a0b1e;
+      --surface: #17183b;
+      --surface-light: #202153;
+      --line: rgba(221, 222, 255, .14);
+      --indigo: #4b39ff;
+      --indigo-light: #8e83ff;
+      --gold: #fdbe1b;
+      --ember: #f9811f;
+      --mist: #f8f8ff;
+      --slate: #a7a9c7;
+      --muted: #73779f;
+      --success: #4bd69a;
+      --shadow: 0 24px 80px rgba(4, 5, 24, .34);
+    }
+
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--ink); color: var(--mist); font: 16px/1.6 Inter, system-ui, -apple-system, sans-serif; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ink-deep);
+      color: var(--mist);
+      font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background:
+        radial-gradient(circle at 82% 8%, rgba(75, 57, 255, .19), transparent 32rem),
+        radial-gradient(circle at 8% 52%, rgba(249, 129, 31, .06), transparent 28rem);
+    }
     a { color: inherit; }
-    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
-    header { padding: 28px 0; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.02em; text-decoration: none; }
-    .brand-mark { display: flex; align-items: center; width: 88px; height: 56px; overflow: visible; border-radius: 0; background: transparent; }
-    .brand-mark img { display: block; width: 88px; height: auto; max-height: 56px; object-fit: contain; }
-    nav { display: flex; gap: 20px; color: var(--slate); font-size: 14px; }
-    nav a:hover, .text-link:hover { color: white; }
-    .hero { padding: 92px 0 80px; max-width: 840px; }
-    .hero-logo { display: block; width: min(360px, 80vw); height: auto; margin: 0 0 36px; }
-    .eyebrow { color: var(--gold); font: 700 12px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
-    h1, h2, h3 { margin: 0; line-height: 1.1; letter-spacing: -.04em; }
-    h1 { margin-top: 18px; font-size: clamp(44px, 8vw, 82px); }
-    h2 { font-size: clamp(30px, 4vw, 46px); }
+    img { max-width: 100%; }
+    .shell { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+    .skip-link {
+      position: fixed;
+      z-index: 10;
+      top: 12px;
+      left: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: var(--ink-deep);
+      font-weight: 800;
+      transform: translateY(-140%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 96px;
+      gap: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      min-width: 88px;
+      text-decoration: none;
+    }
+    .brand-mark { display: block; width: 88px; height: 56px; }
+    .brand-mark img { display: block; width: 88px; height: 56px; object-fit: contain; }
+    nav { display: flex; align-items: center; gap: 28px; margin-left: auto; color: var(--slate); font-size: 14px; }
+    nav a { text-decoration: none; transition: color 180ms ease; }
+    nav a:hover { color: var(--mist); }
+    .header-cta, .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border-radius: 9px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+    .header-cta { min-height: 38px; padding: 8px 15px; background: rgba(253, 190, 27, .12); color: var(--gold); font-size: 13px; }
+    .header-cta:hover { background: rgba(253, 190, 27, .2); }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(360px, .94fr);
+      align-items: center;
+      gap: clamp(48px, 8vw, 112px);
+      min-height: 650px;
+      padding: 88px 0 96px;
+    }
+    .hero-copy { position: relative; z-index: 1; }
+    .eyebrow, .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--gold);
+      font: 700 11px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 5px rgba(75, 214, 154, .1); }
+    h1, h2, h3 { margin: 0; line-height: 1.08; letter-spacing: -.045em; }
+    h1 { max-width: 730px; margin-top: 22px; font-size: clamp(44px, 6vw, 78px); }
+    h2 { font-size: clamp(34px, 4.5vw, 56px); }
     h3 { font-size: 20px; }
-    .hero p { max-width: 700px; margin: 24px 0 30px; color: var(--slate); font-size: 20px; }
+    .hero-lede { max-width: 650px; margin: 26px 0 32px; color: var(--slate); font-size: clamp(18px, 2vw, 21px); }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-    .button { display: inline-flex; align-items: center; min-height: 46px; padding: 10px 18px; border-radius: 8px; background: var(--indigo); color: white; font-weight: 700; text-decoration: none; }
-    .button.secondary { background: transparent; border: 1px solid #66688d; }
-    .button:hover { transform: translateY(-1px); }
-    section { padding: 72px 0; border-top: 1px solid #3a3a69; }
-    .section-intro { max-width: 700px; margin: 16px 0 30px; color: var(--slate); }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .card { padding: 24px; background: #292960; border: 1px solid #464678; border-radius: 12px; }
-    .card p { margin: 10px 0 0; color: var(--slate); font-size: 14px; }
-    .card code { color: var(--gold); font: 600 13px ui-monospace, SFMono-Regular, Consolas, monospace; }
-    .install { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    pre { overflow: auto; margin: 14px 0 0; padding: 18px; background: #141438; border: 1px solid #3f3f70; border-radius: 8px; color: #e7e7f5; font: 13px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace; }
-    footer { padding: 36px 0 54px; color: var(--slate); font-size: 14px; }
-    @media (max-width: 760px) { header { align-items: flex-start; } nav { display: none; } .hero { padding: 56px 0 58px; } .grid, .install { grid-template-columns: 1fr; } section { padding: 52px 0; } }
+    .button { padding: 10px 19px; background: var(--indigo); color: white; box-shadow: 0 10px 30px rgba(75, 57, 255, .27); }
+    .button:hover { background: #5d4dff; box-shadow: 0 14px 36px rgba(75, 57, 255, .38); transform: translateY(-2px); }
+    .button.secondary { border: 1px solid var(--line); background: rgba(255,255,255,.035); color: var(--mist); box-shadow: none; }
+    .button.secondary:hover { background: rgba(255,255,255,.08); }
+    .hero-proof { display: flex; align-items: center; gap: 12px; margin-top: 38px; color: var(--muted); font-size: 13px; }
+    .proof-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid rgba(253,190,27,.45); border-radius: 50%; color: var(--gold); font: 700 12px ui-monospace, monospace; }
+    .hero-visual {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 500px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(75,57,255,.22), rgba(23,24,59,.72) 58%, rgba(10,11,30,.9));
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+    .hero-visual::before {
+      position: absolute;
+      inset: 12%;
+      z-index: -1;
+      border: 1px solid rgba(142,131,255,.18);
+      border-radius: 50%;
+      content: "";
+      box-shadow: 0 0 0 34px rgba(142,131,255,.035), 0 0 0 68px rgba(142,131,255,.025);
+    }
+    .hero-visual::after {
+      position: absolute;
+      right: -20%;
+      bottom: -25%;
+      z-index: -1;
+      width: 75%;
+      height: 65%;
+      border-radius: 50%;
+      background: rgba(253,190,27,.11);
+      filter: blur(60px);
+      content: "";
+    }
+    .hero-logo { display: block; width: min(380px, 78%); height: auto; filter: drop-shadow(0 18px 30px rgba(0,0,0,.28)); }
+    .visual-label { position: absolute; top: 24px; left: 26px; color: var(--slate); font: 600 10px ui-monospace, monospace; letter-spacing: .14em; }
+    .visual-panel { position: absolute; display: flex; align-items: center; gap: 10px; padding: 11px 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,11,30,.68); backdrop-filter: blur(12px); color: var(--mist); font-size: 12px; box-shadow: 0 12px 28px rgba(0,0,0,.2); }
+    .visual-panel strong { display: block; color: var(--gold); font-size: 16px; line-height: 1; }
+    .visual-panel span { color: var(--slate); }
+    .visual-panel.top { top: 78px; right: 22px; }
+    .visual-panel.bottom { bottom: 24px; left: 22px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 4px rgba(75,214,154,.1); }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 30px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stat { padding: 25px 20px; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: 0; }
+    .stat strong { display: block; color: var(--mist); font-size: 27px; letter-spacing: -.04em; }
+    .stat span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+
+    section.content-section { padding: 112px 0; border-top: 1px solid var(--line); }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 42px; }
+    .section-heading > div { max-width: 690px; }
+    .section-heading h2 { margin-top: 15px; }
+    .section-intro { max-width: 620px; margin: 17px 0 0; color: var(--slate); font-size: 17px; }
+    .section-note { color: var(--muted); font: 12px ui-monospace, monospace; white-space: nowrap; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card { position: relative; min-height: 220px; padding: 25px; overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg, rgba(32,33,83,.82), rgba(23,24,59,.66)); transition: transform 180ms ease, border-color 180ms ease, background 180ms ease; }
+    .card::after { position: absolute; top: -45px; right: -45px; width: 120px; height: 120px; border-radius: 50%; background: rgba(75,57,255,.14); content: ""; }
+    .card:hover { border-color: rgba(142,131,255,.5); background: linear-gradient(145deg, rgba(39,40,101,.9), rgba(23,24,59,.78)); transform: translateY(-4px); }
+    .agent-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .agent-index { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid rgba(253,190,27,.42); border-radius: 9px; color: var(--gold); font: 700 12px ui-monospace, monospace; }
+    .agent-type { color: var(--muted); font: 11px ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .card h3 { position: relative; z-index: 1; }
+    .card code { position: relative; z-index: 1; display: inline-block; margin-top: 9px; color: var(--indigo-light); font: 600 12px ui-monospace, monospace; }
+    .card p { position: relative; z-index: 1; margin: 13px 0 0; color: var(--slate); font-size: 14px; }
+
+    .install-section { position: relative; overflow: hidden; }
+    .install-section::before { position: absolute; top: 0; right: -8%; width: 42%; height: 100%; background: radial-gradient(circle, rgba(75,57,255,.22), transparent 65%); content: ""; pointer-events: none; }
+    .install-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .code-card { position: relative; padding: 25px; border: 1px solid var(--line); border-radius: 15px; background: #10112b; }
+    .code-card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--mist); font-size: 14px; font-weight: 800; }
+    .code-card-header span { color: var(--gold); font: 700 10px ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+    pre { overflow: auto; margin: 20px 0 0; padding: 18px; border: 1px solid var(--line); border-radius: 9px; background: #08091b; color: #dfe0ff; font: 13px/1.75 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 42px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .closing h2 { max-width: 680px; font-size: clamp(28px, 4vw, 44px); }
+    .closing .text-link { flex: 0 0 auto; color: var(--gold); font-weight: 800; text-decoration: none; }
+    .closing .text-link:hover { color: white; }
+    footer { display: flex; justify-content: space-between; gap: 20px; padding: 34px 0 52px; color: var(--muted); font-size: 13px; }
+    footer a { color: var(--slate); text-decoration: none; }
+    footer a:hover { color: white; }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; gap: 54px; padding-top: 70px; }
+      .hero-visual { min-height: 440px; max-width: 620px; }
+      .section-heading { align-items: start; flex-direction: column; gap: 12px; }
+      .section-note { white-space: normal; }
+    }
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 32px, 560px); }
+      .site-header { min-height: 82px; }
+      .brand-mark, .brand-mark img { width: 76px; height: 48px; }
+      nav { display: none; }
+      .header-cta { min-height: 36px; }
+      .hero { min-height: auto; padding: 58px 0 68px; }
+      h1 { font-size: clamp(40px, 13vw, 62px); }
+      .hero-visual { min-height: 360px; border-radius: 18px; }
+      .hero-logo { width: min(310px, 78%); }
+      .visual-panel { padding: 9px 11px; }
+      .visual-panel.top { top: 62px; right: 12px; }
+      .visual-panel.bottom { bottom: 14px; left: 12px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .grid, .install-grid { grid-template-columns: 1fr; }
+      section.content-section { padding: 76px 0; }
+      .closing, footer { align-items: start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
   </style>
 </head>
 <body>
-  <header class="shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header shell">
     <a class="brand" href="./" aria-label="Kiroweaver home"><span class="brand-mark"><img src="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png" alt="Kiroweaver logo"></span></a>
     <nav aria-label="Primary navigation">
       <a href="#agents">Kiro agents</a>
       <a href="#install">Install</a>
       <a href="https://github.com/awskrishnak/kiroweaver">GitHub</a>
     </nav>
+    <a class="header-cta" href="https://github.com/awskrishnak/kiroweaver">View repository</a>
   </header>
 
-  <main>
-    <section class="shell hero">
-      <img class="hero-logo" src="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png" alt="Kiroweaver logo">
-      <div class="eyebrow">Open-source Kiro CLI agent fleet</div>
-      <h1>One Kiro agent fleet. The right specialist for every task.</h1>
-      <p>Kiroweaver coordinates seven fixed-model Kiro agents for planning, coding, UI/UX, vision, security review, and authorized penetration testing.</p>
-      <div class="actions">
-        <a class="button" href="https://github.com/awskrishnak/kiroweaver">View on GitHub</a>
-        <a class="button secondary" href="#install">Install Kiro agents</a>
+  <main id="main-content">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Open-source Kiro CLI agent fleet</div>
+        <h1 id="hero-title">The right specialist for every task.</h1>
+        <p class="hero-lede">Kiroweaver coordinates seven fixed-model Kiro agents for planning, coding, UI/UX, vision, security review, and authorized penetration testing.</p>
+        <div class="actions">
+          <a class="button" href="https://github.com/awskrishnak/kiroweaver">View on GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="#install">Install Kiro agents</a>
+        </div>
+        <div class="hero-proof"><span class="proof-mark">7</span><span>Specialized agents · explicit tools · controlled delegation</span></div>
+      </div>
+      <div class="hero-visual" aria-label="Kiroweaver fixed-model agent fleet">
+        <span class="visual-label">KIRO CLI / CONTROLLED FLEET</span>
+        <img class="hero-logo" src="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png" alt="Kiroweaver logo">
+        <div class="visual-panel top"><span class="status-dot" aria-hidden="true"></span><div><strong>7 agents</strong><span>ready to route</span></div></div>
+        <div class="visual-panel bottom"><div><strong>fixed models</strong><span>quality per dollar</span></div></div>
       </div>
     </section>
 
-    <section id="agents">
+    <div class="shell stats" aria-label="Kiroweaver highlights">
+      <div class="stat"><strong>07</strong><span>specialist profiles</span></div>
+      <div class="stat"><strong>02</strong><span>portable formats</span></div>
+      <div class="stat"><strong>01</strong><span>controlled fleet</span></div>
+      <div class="stat"><strong>100%</strong><span>explicit boundaries</span></div>
+    </div>
+
+    <section id="agents" class="content-section" aria-labelledby="agents-title">
       <div class="shell">
-        <div class="eyebrow">Specialized Kiro agents</div>
-        <h2>Focused models, controlled delegation.</h2>
-        <p class="section-intro">Each profile has a defined model, tool scope, permission boundary, and task role. The orchestrator routes work to the specialist instead of relying on one general-purpose agent.</p>
+        <div class="section-heading">
+          <div><div class="section-kicker">Specialized Kiro agents</div><h2 id="agents-title">Focused models.<br>Controlled delegation.</h2><p class="section-intro">Each profile has a defined model, tool scope, permission boundary, and task role. Route work to the specialist instead of relying on one general-purpose agent.</p></div>
+          <span class="section-note">01 / AGENT FLEET</span>
+        </div>
         <div class="grid">
-          <article class="card"><h3>Planning</h3><code>kiroweaver-thinker</code><p>Architecture, tradeoffs, sequencing, and implementation plans.</p></article>
-          <article class="card"><h3>Coding</h3><code>kiroweaver-coder</code><p>Minimal implementation, refactoring, debugging, and validation.</p></article>
-          <article class="card"><h3>Design</h3><code>kiroweaver-designer</code><p>Accessible UI/UX, responsive frontend, and design systems.</p></article>
-          <article class="card"><h3>Vision</h3><code>kiroweaver-vision</code><p>Screenshot, diagram, image, OCR, and error-log analysis.</p></article>
-          <article class="card"><h3>Security</h3><code>kiroweaver-security</code><p>Static security, dependency, secret, and vulnerability review.</p></article>
-          <article class="card"><h3>VAPT</h3><code>kiroweaver-vapt</code><p>Authorized active testing with reproducible evidence and PoCs.</p></article>
+          <article class="card"><div class="agent-top"><span class="agent-index">01</span><span class="agent-type">strategy</span></div><h3>Planning</h3><code>kiroweaver-thinker</code><p>Architecture, tradeoffs, sequencing, and implementation plans.</p></article>
+          <article class="card"><div class="agent-top"><span class="agent-index">02</span><span class="agent-type">build</span></div><h3>Coding</h3><code>kiroweaver-coder</code><p>Minimal implementation, refactoring, debugging, and validation.</p></article>
+          <article class="card"><div class="agent-top"><span class="agent-index">03</span><span class="agent-type">experience</span></div><h3>Design</h3><code>kiroweaver-designer</code><p>Accessible UI/UX, responsive frontend, and design systems.</p></article>
+          <article class="card"><div class="agent-top"><span class="agent-index">04</span><span class="agent-type">interpret</span></div><h3>Vision</h3><code>kiroweaver-vision</code><p>Screenshot, diagram, image, OCR, and error-log analysis.</p></article>
+          <article class="card"><div class="agent-top"><span class="agent-index">05</span><span class="agent-type">defend</span></div><h3>Security</h3><code>kiroweaver-security</code><p>Static security, dependency, secret, and vulnerability review.</p></article>
+          <article class="card"><div class="agent-top"><span class="agent-index">06</span><span class="agent-type">validate</span></div><h3>VAPT</h3><code>kiroweaver-vapt</code><p>Authorized active testing with reproducible evidence and PoCs.</p></article>
         </div>
       </div>
     </section>
 
-    <section id="install">
+    <section id="install" class="content-section install-section" aria-labelledby="install-title">
       <div class="shell">
-        <div class="eyebrow">Install Kiro agents</div>
-        <h2>Global or workspace-local.</h2>
-        <p class="section-intro">Copy the Markdown source definitions and JSON Kiro CLI profiles together. Use global installation across projects or keep the fleet scoped to one workspace.</p>
-        <div class="install">
-          <div class="card"><h3>Global installation</h3><pre>git clone https://github.com/awskrishnak/kiroweaver.git ~/kiroweaver
+        <div class="section-heading">
+          <div><div class="section-kicker">Install Kiro agents</div><h2 id="install-title">Start in one command.</h2><p class="section-intro">Copy the Markdown source definitions and JSON Kiro CLI profiles together. Use a global install across projects or scope the fleet to one workspace.</p></div>
+          <span class="section-note">02 / QUICK START</span>
+        </div>
+        <div class="install-grid">
+          <div class="code-card"><div class="code-card-header"><span>Global installation</span><span>ALL PROJECTS</span></div><pre><code>git clone https://github.com/awskrishnak/kiroweaver.git ~/kiroweaver
 mkdir -p ~/.kiro/agents
-cp ~/kiroweaver/*.md ~/kiroweaver/*.json ~/.kiro/agents/</pre></div>
-          <div class="card"><h3>Workspace-local installation</h3><pre>mkdir -p .kiro/agents
-cp /path/to/kiroweaver/*.md /path/to/kiroweaver/*.json .kiro/agents/</pre></div>
+cp ~/kiroweaver/*.md ~/kiroweaver/*.json ~/.kiro/agents/</code></pre></div>
+          <div class="code-card"><div class="code-card-header"><span>Workspace-local installation</span><span>ONE PROJECT</span></div><pre><code>mkdir -p .kiro/agents
+cp /path/to/kiroweaver/*.md /path/to/kiroweaver/*.json .kiro/agents/</code></pre></div>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="shell">
-        <div class="eyebrow">Learn more</div>
-        <h2>Explore the complete fleet.</h2>
-        <p class="section-intro">Read the full documentation, inspect the JSON profiles, and see how Kiroweaver keeps models, tools, and delegation boundaries explicit.</p>
-        <a class="text-link" href="https://github.com/awskrishnak/kiroweaver#frequently-asked-questions">Read the README and FAQ →</a>
-      </div>
+    <section class="shell closing" aria-labelledby="closing-title">
+      <h2 id="closing-title">Make every Kiro session more deliberate.</h2>
+      <a class="text-link" href="https://github.com/awskrishnak/kiroweaver#frequently-asked-questions">Read the README and FAQ <span aria-hidden="true">→</span></a>
     </section>
   </main>
 
-  <footer class="shell">© 2026 Kiroweaver · <a href="https://github.com/awskrishnak/kiroweaver">Open source on GitHub</a></footer>
+  <footer class="shell"><span>© 2026 Kiroweaver · Open-source Kiro agent fleet</span><a href="https://github.com/awskrishnak/kiroweaver">Open source on GitHub ↗</a></footer>
 </body>
 </html>
