@@ -51,6 +51,7 @@
     nav { display: flex; gap: 20px; color: var(--slate); font-size: 14px; }
     nav a:hover, .text-link:hover { color: white; }
     .hero { padding: 92px 0 80px; max-width: 840px; }
+    .hero-logo { display: block; width: min(360px, 80vw); height: auto; margin: 0 0 36px; }
     .eyebrow { color: var(--gold); font: 700 12px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
     h1, h2, h3 { margin: 0; line-height: 1.1; letter-spacing: -.04em; }
     h1 { margin-top: 18px; font-size: clamp(44px, 8vw, 82px); }
@@ -85,6 +86,7 @@
 
   <main>
     <section class="shell hero">
+      <img class="hero-logo" src="https://raw.githubusercontent.com/awskrishnak/kiroweaver/main/k-logo.png" alt="Kiroweaver logo">
       <div class="eyebrow">Open-source Kiro CLI agent fleet</div>
       <h1>One Kiro agent fleet. The right specialist for every task.</h1>
       <p>Kiroweaver coordinates seven fixed-model Kiro agents for planning, coding, UI/UX, vision, security review, and authorized penetration testing.</p>
